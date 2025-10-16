@@ -5,12 +5,12 @@
 + Materiały: github, moodle
 + Zaliczenie: projekt przez Kaggle
 + [Sylabus](https://esylabus.ue.poznan.pl/pl/document/8ba52650-091b-4852-9553-34fc9410f610.pdf)
-+ [Slajdy](https://www.overleaf.com/read/kzydvvmfvtnq#32e3c2)
++ [Slajdy](https://www.overleaf.com/read/cnrspnsgtjpr#3639e7)
 + Shiny:
   + [Wizualizacja imputacji danych 1](https://berenz.shinyapps.io/missing-data-class1/)
 
 + Zaliczenie:
-  + szablon w quarto: [plik.qmd](zaliczenie/szablon-raportu-adn2025.qmd), [wygląd raportu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/DepartmentOfStatisticsPUE/adn-2025/refs/heads/main/zaliczenie/szablon-raportu-adn2025.html)
+  + szablon w quarto: [plik.qmd](raport/szablon-raportu-adn2026.qmd), [wygląd raportu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/DepartmentOfStatisticsPUE/adn-2026/refs/heads/main/raport/szablon-raportu-adn2026.html)
   + [szablon w jupyter notebook (colab)](https://colab.research.google.com/drive/1cfBdAJQv31UdpYDGj7wbs3dDzeCcbBAR?usp=sharing)
   
 ## Materiały na zajęcia
