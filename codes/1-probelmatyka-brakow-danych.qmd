@@ -389,6 +389,7 @@ tail(dane)
 
 Plik zawiera różne sposoby kodowania braków danych? Jakie? 
 
+Co z korelacją? Jak wyznaczyć korelację między np. wiekiem, wzrostem i oceną gdy występują braki danych?
 
 ## Python
 
