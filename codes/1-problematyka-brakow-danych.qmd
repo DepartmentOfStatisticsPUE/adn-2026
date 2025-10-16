@@ -387,11 +387,41 @@ head(dane)
 tail(dane)
 ```
 
-Plik zawiera różne sposoby kodowania braków danych? Jakie? 
+Plik zawiera różne sposoby kodowania braków danych? Jakie? Jak to ustawić (hint `na.strings`)
 
 Co z korelacją? Jak wyznaczyć korelację między np. wiekiem, wzrostem i oceną gdy występują braki danych?
 
+```{r, eval = FALSE}
+with(dane, cor(wzrost, ocena))
+```
+
 ## Python
+
+```{python, python-read-data}
+import pandas as pd
+
+dane = pd.read_csv(
+    "../data/plik-przyklad.csv",
+    skip_blank_lines=True,
+    on_bad_lines="skip"
+)
+dane.head()
+```
+
+```{python, python-tail}
+dane.tail()
+```
+
+Plik zawiera różne sposoby kodowania braków danych? Jakie? Jak to ustawić (hint `na_values`)
+
+Co z korelacją? Jak wyznaczyć korelację między np. wiekiem, wzrostem i oceną gdy występują braki danych?
+
+```{python, python-cor, eval = F}
+correlation = dane["wiek"].corr(
+    dane["ocena"],
+    method="pearson"
+)
+```
 
 :::
 
