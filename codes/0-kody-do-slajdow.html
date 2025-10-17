@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1. Braki danych w pakietach statystycznych</title>
+<title>1. Problematyka braków danych</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -3087,15 +3087,7 @@ vertical-align: -.125em;
     <h2 id="toc-title">Spis treści</h2>
    
   <ul>
-  <li><a href="#braki-danych-w-pakietach-statystycznych" id="toc-braki-danych-w-pakietach-statystycznych" class="nav-link active" data-scroll-target="#braki-danych-w-pakietach-statystycznych"><span class="header-section-number">1</span> Braki danych w pakietach statystycznych</a>
-  <ul class="collapse">
-  <li><a href="#kodowanie-braków-danych" id="toc-kodowanie-braków-danych" class="nav-link" data-scroll-target="#kodowanie-braków-danych"><span class="header-section-number">1.1</span> Kodowanie braków danych</a></li>
-  <li><a href="#praca-z-brakami-danych" id="toc-praca-z-brakami-danych" class="nav-link" data-scroll-target="#praca-z-brakami-danych"><span class="header-section-number">1.2</span> Praca z brakami danych</a>
-  <ul class="collapse">
-  <li><a href="#dane-wczytywane-z-plików" id="toc-dane-wczytywane-z-plików" class="nav-link" data-scroll-target="#dane-wczytywane-z-plików"><span class="header-section-number">1.2.1</span> Dane wczytywane z plików</a></li>
-  <li><a href="#dane-ankietowe" id="toc-dane-ankietowe" class="nav-link" data-scroll-target="#dane-ankietowe"><span class="header-section-number">1.2.2</span> Dane ankietowe</a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#wizualizacja-braków-danych" id="toc-wizualizacja-braków-danych" class="nav-link active" data-scroll-target="#wizualizacja-braków-danych"><span class="header-section-number">1</span> Wizualizacja braków danych</a></li>
   </ul>
 </nav>
 </div>
@@ -3103,7 +3095,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">1. Braki danych w pakietach statystycznych</h1>
+<h1 class="title">1. Problematyka braków danych</h1>
 </div>
 
 
@@ -3120,439 +3112,333 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="braki-danych-w-pakietach-statystycznych" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Braki danych w pakietach statystycznych</h1>
-<section id="kodowanie-braków-danych" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="kodowanie-braków-danych"><span class="header-section-number">1.1</span> Kodowanie braków danych</h2>
+<section id="wizualizacja-braków-danych" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Wizualizacja braków danych</h1>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href>R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href>Python</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="cn">NA</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(x1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ustawiamy ziarno losowości dla powtarzalności wyników</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Wczytanie biblioteki do obsługi polskich znaków w PDF</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xtable)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf.options</span>(<span class="at">encoding =</span> <span class="st">&quot;CP1250&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generowanie danych</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span>  <span class="co"># liczba obserwacji</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)  <span class="co"># X z rozkładu normalnego</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">20</span>)  <span class="co"># Wzmocniona zależność Y od X</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Funkcja do generowania braków danych</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>generate_missing <span class="ot">&lt;-</span> <span class="cf">function</span>(y, x, mechanism, <span class="at">prob =</span> <span class="fl">0.3</span>) {</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  missing <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">FALSE</span>, n)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mechanism <span class="sc">==</span> <span class="st">&quot;MCAR&quot;</span>) {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    missing <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> prob</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (mechanism <span class="sc">==</span> <span class="st">&quot;MAR&quot;</span>) {</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    prob_missing <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">scale</span>(x))  <span class="co"># Prawdopodobieństwo braku zależy od X</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    missing <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> prob_missing</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (mechanism <span class="sc">==</span> <span class="st">&quot;NMAR&quot;</span>) {</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    prob_missing <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">scale</span>(y))  <span class="co"># Prawdopodobieństwo braku zależy od Y</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    missing <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> prob_missing</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  y[missing] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(y)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Generowanie braków danych dla każdego mechanizmu</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>y_mcar <span class="ot">&lt;-</span> <span class="fu">generate_missing</span>(y, x, <span class="st">&quot;MCAR&quot;</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>y_mar <span class="ot">&lt;-</span> <span class="fu">generate_missing</span>(y, x, <span class="st">&quot;MAR&quot;</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>y_nmar <span class="ot">&lt;-</span> <span class="fu">generate_missing</span>(y, x, <span class="st">&quot;NMAR&quot;</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Funkcja do tworzenia wykresu porównawczego rozkładów gęstości</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>plot_density_comparison <span class="ot">&lt;-</span> <span class="cf">function</span>(y_full, y_obs, title, y_max) {</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  dens_full <span class="ot">&lt;-</span> <span class="fu">density</span>(y_full)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  dens_obs <span class="ot">&lt;-</span> <span class="fu">density</span>(y_obs[<span class="sc">!</span><span class="fu">is.na</span>(y_obs)])</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(dens_full, <span class="at">main =</span> title, <span class="at">xlab =</span> <span class="st">&quot;Y&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Gęstość&quot;</span>,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex.main =</span> <span class="dv">1</span>, <span class="at">cex.lab =</span> <span class="dv">1</span>, <span class="at">cex.axis =</span> <span class="dv">1</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, y_max))</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(dens_obs, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Pełne dane&quot;</span>, <span class="st">&quot;Obserwowane dane&quot;</span>),</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">lwd =</span> <span class="dv">2</span>,  <span class="at">cex =</span> <span class="dv">1</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Obliczenie maksymalnej wartości gęstości dla wszystkich przypadków</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>y_max <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">c</span>(</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">density</span>(y)<span class="sc">$</span>y),</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">density</span>(y_mcar[<span class="sc">!</span><span class="fu">is.na</span>(y_mcar)])<span class="sc">$</span>y),</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">density</span>(y_mar[<span class="sc">!</span><span class="fu">is.na</span>(y_mar)])<span class="sc">$</span>y),</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">density</span>(y_nmar[<span class="sc">!</span><span class="fu">is.na</span>(y_nmar)])<span class="sc">$</span>y)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Tworzenie wykresów</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;fig-missing-examples.pdf&quot;</span>, <span class="at">width =</span> <span class="dv">12</span>, <span class="at">height =</span> <span class="dv">4</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_density_comparison</span>(y, y_mcar, <span class="st">&quot;MCAR&quot;</span>, y_max)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_density_comparison</span>(y, y_mar, <span class="st">&quot;MAR&quot;</span>, y_max)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_density_comparison</span>(y, y_nmar, <span class="st">&quot;NMAR&quot;</span>, y_max)</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-    1.0     1.5     2.0     2.0     2.5     3.0       1 </code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
 </div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tworzymy ramkę danych z wynikami</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Statystyka =</span> <span class="fu">c</span>(<span class="st">&quot;Procent brakujących danych&quot;</span>, <span class="st">&quot;Średnia Y&quot;</span>, <span class="st">&quot;Odchylenie standardowe Y&quot;</span>, <span class="st">&quot;Korelacja między X i Y&quot;</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pelne_dane =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">mean</span>(y), <span class="fu">sd</span>(y), <span class="fu">cor</span>(x, y)),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">MCAR =</span> <span class="fu">c</span>(<span class="fu">mean</span>(<span class="fu">is.na</span>(y_mcar)) <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">mean</span>(y_mcar, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">sd</span>(y_mcar, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">cor</span>(x, y_mcar, <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>)),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">MAR =</span> <span class="fu">c</span>(<span class="fu">mean</span>(<span class="fu">is.na</span>(y_mar)) <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">mean</span>(y_mar, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">sd</span>(y_mar, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">cor</span>(x, y_mar, <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>)),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">NMAR =</span> <span class="fu">c</span>(<span class="fu">mean</span>(<span class="fu">is.na</span>(y_nmar)) <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">mean</span>(y_nmar, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">sd</span>(y_nmar, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">cor</span>(x, y_nmar, <span class="at">use =</span> <span class="st">&quot;complete.obs&quot;</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Tworzymy tabelę xtable</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>xtable_results <span class="ot">&lt;-</span> <span class="fu">xtable</span>(results, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">caption =</span> <span class="st">&quot;Porównanie statystyk dla różnych mechanizmów braków danych&quot;</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">label =</span> <span class="st">&quot;tab:missing-data-stats&quot;</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                         <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Generujemy kod LaTeX</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>latex_code <span class="ot">&lt;-</span> <span class="fu">print</span>(xtable_results, </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">include.rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                    <span class="at">floating =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">table.placement =</span> <span class="st">&quot;htbp&quot;</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">caption.placement =</span> <span class="st">&quot;top&quot;</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">print.results =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Wyświetlamy kod LaTeX</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(latex_code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>x1
-1 2 3 
-1 1 1 </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x1, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>x1
-   1    2    3 &lt;NA&gt; 
-   1    1    1    1 </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] NA</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x1, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(x1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 2 3
-attr(,&quot;na.action&quot;)
-[1] 4
-attr(,&quot;class&quot;)
-[1] &quot;omit&quot;</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>, <span class="cn">NA</span>, <span class="cn">NaN</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-    1.0     1.5     2.0     2.0     2.5     3.0       2 </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x2, <span class="at">na.rm=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>x2
-1 2 3 
-1 1 1 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x2, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>x2
-   1    2    3 &lt;NA&gt;  NaN 
-   1    1    1    1    1 </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">na.omit</span>(x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 2 3
-attr(,&quot;na.action&quot;)
-[1] 4 5
-attr(,&quot;class&quot;)
-[1] &quot;omit&quot;</code></pre>
+<pre><code>% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Fri Oct 17 08:05:03 2025
+\begin{table}[htbp]
+\centering
+\caption{Porównanie statystyk dla różnych mechanizmów braków danych} 
+\label{tab:missing-data-stats}
+\begin{tabular}{lrrrr}
+  \hline
+Statystyka &amp; Pelne\_dane &amp; MCAR &amp; MAR &amp; NMAR \\ 
+  \hline
+Procent brakujących danych &amp; 0.00 &amp; 29.90 &amp; 49.60 &amp; 51.30 \\ 
+  Średnia Y &amp; 251.66 &amp; 250.05 &amp; 222.08 &amp; 217.50 \\ 
+  Odchylenie standardowe Y &amp; 55.13 &amp; 56.30 &amp; 45.77 &amp; 43.56 \\ 
+  Korelacja między X i Y &amp; 0.93 &amp; 0.93 &amp; 0.90 &amp; 0.90 \\ 
+   \hline
+\end{tabular}
+\end{table}</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, np.nan])</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>x1.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gaussian_kde</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ustawiamy ziarno losowości dla powtarzalności wyników</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">123</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Generowanie danych</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># liczba obserwacji</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.random.normal(loc<span class="op">=</span><span class="dv">50</span>, scale<span class="op">=</span><span class="dv">10</span>, size<span class="op">=</span>n)  <span class="co"># X z rozkładu normalnego</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> x <span class="op">+</span> np.random.normal(loc<span class="op">=</span><span class="dv">0</span>, scale<span class="op">=</span><span class="dv">20</span>, size<span class="op">=</span>n)  <span class="co"># Wzmocniona zależność Y od X</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Funkcja do generowania braków danych</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_missing(y, x, mechanism, prob<span class="op">=</span><span class="fl">0.3</span>):</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(y)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    missing <span class="op">=</span> np.full(n, <span class="va">False</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> mechanism <span class="op">==</span> <span class="st">&quot;MCAR&quot;</span>:</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        missing <span class="op">=</span> np.random.random(n) <span class="op">&lt;</span> prob</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> mechanism <span class="op">==</span> <span class="st">&quot;MAR&quot;</span>:</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        prob_missing <span class="op">=</span> stats.logistic.cdf(<span class="dv">2</span> <span class="op">*</span> stats.zscore(x))  <span class="co"># Prawdopodobieństwo braku zależy od X</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        missing <span class="op">=</span> np.random.random(n) <span class="op">&lt;</span> prob_missing</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> mechanism <span class="op">==</span> <span class="st">&quot;NMAR&quot;</span>:</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        prob_missing <span class="op">=</span> stats.logistic.cdf(<span class="dv">2</span> <span class="op">*</span> stats.zscore(y))  <span class="co"># Prawdopodobieństwo braku zależy od Y</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        missing <span class="op">=</span> np.random.random(n) <span class="op">&lt;</span> prob_missing</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    y_missing <span class="op">=</span> y.copy()</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    y_missing[missing] <span class="op">=</span> np.nan</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y_missing</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Generowanie braków danych dla każdego mechanizmu</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>y_mcar <span class="op">=</span> generate_missing(y, x, <span class="st">&quot;MCAR&quot;</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>y_mar <span class="op">=</span> generate_missing(y, x, <span class="st">&quot;MAR&quot;</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>y_nmar <span class="op">=</span> generate_missing(y, x, <span class="st">&quot;NMAR&quot;</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Funkcja do tworzenia wykresu porównawczego rozkładów gęstości</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_density_comparison(y_full, y_obs, title, ax):</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    kde_full <span class="op">=</span> gaussian_kde(y_full)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    kde_obs <span class="op">=</span> gaussian_kde(y_obs[<span class="op">~</span>np.isnan(y_obs)])</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    x_range <span class="op">=</span> np.linspace(<span class="bu">min</span>(y_full), <span class="bu">max</span>(y_full), <span class="dv">100</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_range, kde_full(x_range), color<span class="op">=</span><span class="st">&quot;blue&quot;</span>, label<span class="op">=</span><span class="st">&quot;Pełne dane&quot;</span>)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_range, kde_obs(x_range), color<span class="op">=</span><span class="st">&quot;red&quot;</span>, label<span class="op">=</span><span class="st">&quot;Obserwowane dane&quot;</span>)</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">&quot;Gęstość&quot;</span>)</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    ax.legend(loc<span class="op">=</span><span class="st">&#39;upper right&#39;</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Tworzenie wykresów</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2, ax3) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>plot_density_comparison(y, y_mcar, <span class="st">&quot;MCAR&quot;</span>, ax1)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>plot_density_comparison(y, y_mar, <span class="st">&quot;MAR&quot;</span>, ax2)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>plot_density_comparison(y, y_nmar, <span class="st">&quot;NMAR&quot;</span>, ax3)</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">&quot;fig-missing-examples-py.pdf&quot;</span>)</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>plt.close()</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Tworzenie ramki danych z wynikami</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Statystyka&quot;</span>: [<span class="st">&quot;Procent brakujących danych&quot;</span>, <span class="st">&quot;Średnia Y&quot;</span>, <span class="st">&quot;Odchylenie standardowe Y&quot;</span>, <span class="st">&quot;Korelacja między X i Y&quot;</span>],</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Pełne dane&quot;</span>: [<span class="dv">0</span>, np.mean(y), np.std(y), np.corrcoef(x, y)[<span class="dv">0</span>, <span class="dv">1</span>]],</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;MCAR&quot;</span>: [np.mean(np.isnan(y_mcar)) <span class="op">*</span> <span class="dv">100</span>, np.nanmean(y_mcar), np.nanstd(y_mcar), np.corrcoef(x[<span class="op">~</span>np.isnan(y_mcar)], y_mcar[<span class="op">~</span>np.isnan(y_mcar)])[<span class="dv">0</span>, <span class="dv">1</span>]],</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;MAR&quot;</span>: [np.mean(np.isnan(y_mar)) <span class="op">*</span> <span class="dv">100</span>, np.nanmean(y_mar), np.nanstd(y_mar), np.corrcoef(x[<span class="op">~</span>np.isnan(y_mar)], y_mar[<span class="op">~</span>np.isnan(y_mar)])[<span class="dv">0</span>, <span class="dv">1</span>]],</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;NMAR&quot;</span>: [np.mean(np.isnan(y_nmar)) <span class="op">*</span> <span class="dv">100</span>, np.nanmean(y_nmar), np.nanstd(y_nmar), np.corrcoef(x[<span class="op">~</span>np.isnan(y_nmar)], y_nmar[<span class="op">~</span>np.isnan(y_nmar)])[<span class="dv">0</span>, <span class="dv">1</span>]]</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Zaokrąglamy wszystkie wartości numeryczne do 2 miejsc po przecinku</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>results.iloc[:, <span class="dv">1</span>:] <span class="op">=</span> results.iloc[:, <span class="dv">1</span>:].<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Generujemy kod LaTeX</span></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>latex_code <span class="op">=</span> tabulate(results, headers<span class="op">=</span><span class="st">&#39;keys&#39;</span>, tablefmt<span class="op">=</span><span class="st">&#39;latex_booktabs&#39;</span>, showindex<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Dodajemy nagłówek i stopkę tabeli LaTeX</span></span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>latex_code <span class="op">=</span> <span class="ss">f&quot;&quot;&quot;</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="ch">\\</span><span class="ss">begin</span><span class="ch">{{</span><span class="ss">table</span><span class="ch">}}</span><span class="ss">[htbp]</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="ch">\\</span><span class="ss">centering</span></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="ch">\\</span><span class="ss">caption</span><span class="ch">{{</span><span class="ss">Porównanie statystyk dla różnych mechanizmów braków danych</span><span class="ch">}}</span></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="ch">\\</span><span class="ss">label</span><span class="ch">{{</span><span class="ss">tab:missing-data-stats</span><span class="ch">}}</span></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="sc">{</span>latex_code<span class="sc">}</span></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="ch">\\</span><span class="ss">end</span><span class="ch">{{</span><span class="ss">table</span><span class="ch">}}</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="ss">&quot;&quot;&quot;</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Wyświetlamy kod LaTeX</span></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(latex_code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>count    3.0
-mean     2.0
-std      1.0
-min      1.0
-25%      1.5
-50%      2.0
-75%      2.5
-max      3.0
-dtype: float64</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x1.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>1.0    1
-2.0    1
-3.0    1
-Name: count, dtype: int64</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x1.value_counts(dropna<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>1.0    1
-2.0    1
-3.0    1
-NaN    1
-Name: count, dtype: int64</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x1.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>2.0</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>x1.mean(skipna<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>2.0</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>x1.dropna()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0    1.0
-1    2.0
-2    3.0
-dtype: float64</code></pre>
+<pre><code>
+\begin{table}[htbp]
+\centering
+\caption{Porównanie statystyk dla różnych mechanizmów braków danych}
+\label{tab:missing-data-stats}
+\begin{tabular}{lrrrr}
+\toprule
+ Statystyka                 &amp;   Pełne dane &amp;   MCAR &amp;    MAR &amp;   NMAR \\
+\midrule
+ Procent brakujących danych &amp;         0    &amp;  27.8  &amp;  51.4  &amp;  50.9  \\
+ Średnia Y                  &amp;       248.19 &amp; 248.33 &amp; 217.01 &amp; 214.91 \\
+ Odchylenie standardowe Y   &amp;        53.02 &amp;  53.39 &amp;  44.08 &amp;  41.98 \\
+ Korelacja między X i Y     &amp;         0.93 &amp;   0.93 &amp;   0.9  &amp;   0.9  \\
+\bottomrule
+\end{tabular}
+\end{table}</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-</section>
-<section id="praca-z-brakami-danych" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="praca-z-brakami-danych"><span class="header-section-number">1.2</span> Praca z brakami danych</h2>
-<section id="dane-wczytywane-z-plików" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="dane-wczytywane-z-plików"><span class="header-section-number">1.2.1</span> Dane wczytywane z plików</h3>
+<p>Wykres na podstawie pracy Riddles, M. K., Kim, J. K., &amp; Im, J. (2016). A propensity-score-adjustment method for nonignorable nonresponse. Journal of Survey Statistics and Methodology, 4(2), 215-245. (tablica 9).</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href>R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href>Python</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dane <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../data/plik-przyklad.csv&quot;</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dane)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  id wiek plec wzrost czy_pracuje grupa_krwi ocena               komentarz
-1  1   32    M  178.5        TRUE         A+   4.5         Dobry pracownik
-2  2 &lt;NA&gt;    K  165.0       FALSE         B-   3.8                    NULL
-3  3   45    M   NULL        TRUE         0+   5.0 Swietny zespolowy gracz
-4  4   28    K  170.2       FALSE        AB+  &lt;NA&gt;             Brak danych
-5  5   -9    M  182.3        TRUE         A-   4.2                        
-6  6   39    K   NULL        TRUE         B+   4.7         Szybko sie uczy</code></pre>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required libraries</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(dane)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   id wiek plec wzrost czy_pracuje grupa_krwi ocena           komentarz
-21 20    -    K  167.9        &lt;NA&gt;        AB-   3.6          Do poprawy
-22 21   36    M    N/D        TRUE         A+   4.4   Solidny pracownik
-23 22  N/D    K  164.5       FALSE         B+   3.9     Wymaga wsparcia
-24 23   50    M  179.8        TRUE         0-   N/D Doswiadczony mentor
-25 24   27    K  168.3         N/D        AB-   4.1   Obiecujacy talent
-26 25   42  N/D  175.6        TRUE         A-   4.7       Lider zespolu</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
 </div>
-</div>
-<p>Plik zawiera różne sposoby kodowania braków danych? Jakie? Jak to ustawić (hint <code>na.strings</code>)</p>
-<p>Co z korelacją? Jak wyznaczyć korelację między np. wiekiem, wzrostem i oceną gdy występują braki danych?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dane, <span class="fu">cor</span>(wzrost, ocena))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the dataset</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Gender =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age_group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;20-29&quot;</span>, <span class="st">&quot;30-39&quot;</span>, <span class="st">&quot;40-49&quot;</span>, <span class="st">&quot;50+&quot;</span>), <span class="dv">2</span>),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Voted_A =</span> <span class="fu">c</span>(<span class="dv">93</span>, <span class="dv">104</span>, <span class="dv">146</span>, <span class="dv">560</span>, <span class="dv">106</span>, <span class="dv">129</span>, <span class="dv">170</span>, <span class="dv">501</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Voted_B =</span> <span class="fu">c</span>(<span class="dv">115</span>, <span class="dv">233</span>, <span class="dv">295</span>, <span class="dv">350</span>, <span class="dv">159</span>, <span class="dv">242</span>, <span class="dv">262</span>, <span class="dv">218</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Other =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>),</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Refusal =</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">82</span>, <span class="dv">49</span>, <span class="dv">174</span>, <span class="dv">62</span>, <span class="dv">70</span>, <span class="dv">69</span>, <span class="dv">211</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the data</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>data_processed <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Voted =</span> Voted_A <span class="sc">+</span> Voted_B <span class="sc">+</span> Other,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">Total =</span> Voted <span class="sc">+</span> Refusal) <span class="sc">|&gt;</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(Voted, Refusal), <span class="at">names_to =</span> <span class="st">&quot;Category&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender, Age_group) <span class="sc">|&gt;</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Percentage =</span> Count <span class="sc">/</span> <span class="fu">sum</span>(Count) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create a basic plot</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>create_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(data, x_var, title) {</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> .data[[x_var]], <span class="at">y =</span> Percentage, <span class="at">fill =</span> Category)) <span class="sc">+</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">&quot;seq&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">#scale_fill_manual(values = c(&quot;Voted&quot; = &quot;#4CAF50&quot;, &quot;Refusal&quot; = &quot;#FFA500&quot;)) +</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> x_var, <span class="at">y =</span> <span class="st">&quot;Percentage&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">scale =</span> <span class="dv">1</span>))</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the combined plot</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>plot_combined <span class="ot">&lt;-</span> <span class="fu">create_plot</span>(data_processed, <span class="st">&quot;Age_group&quot;</span>, <span class="st">&quot;By Age Group and Gender&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Gender, <span class="at">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="at">nrow =</span> <span class="dv">1</span>)  <span class="sc">+</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the age group plot</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>plot_age <span class="ot">&lt;-</span> data_processed <span class="sc">%&gt;%</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Age_group, Category) <span class="sc">%&gt;%</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Percentage =</span> <span class="fu">sum</span>(Count) <span class="sc">/</span> <span class="fu">sum</span>(Total) <span class="sc">*</span> <span class="dv">100</span>, <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">create_plot</span>(<span class="st">&quot;Age_group&quot;</span>, <span class="st">&quot;By Age Group&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the gender plot</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>plot_gender <span class="ot">&lt;-</span> data_processed <span class="sc">%&gt;%</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender, Category) <span class="sc">%&gt;%</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Percentage =</span> <span class="fu">sum</span>(Count) <span class="sc">/</span> <span class="fu">sum</span>(Total) <span class="sc">*</span> <span class="dv">100</span>, <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">create_plot</span>(<span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;By Gender&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all plots using patchwork</span></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>final_plot <span class="ot">&lt;-</span> (plot_combined <span class="sc">+</span> plot_age <span class="sc">+</span> plot_gender) <span class="sc">+</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Exit Poll Results for Gangdong-Gap&quot;</span>,</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">16</span>))</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">&quot;collect&quot;</span>)</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the combined plot as a PDF</span></span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;fig-riddles.pdf&quot;</span>, final_plot, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dane <span class="op">=</span> pd.read_csv(</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;../data/plik-przyklad.csv&quot;</span>,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    skip_blank_lines<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    on_bad_lines<span class="op">=</span><span class="st">&quot;skip&quot;</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>dane.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   id wiek plec wzrost czy_pracuje grupa_krwi ocena                komentarz
-0   1   32    M  178.5        TRUE         A+   4.5          Dobry pracownik
-1   2  NaN    K  165.0       FALSE         B-   3.8                      NaN
-2   3   45    M    NaN        TRUE         0+   5.0  Swietny zespolowy gracz
-3   4   28    K  170.2       FALSE        AB+   NaN              Brak danych
-4   5   -9    M  182.3        TRUE         A-   4.2                      NaN</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dane.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    id wiek plec wzrost czy_pracuje grupa_krwi ocena            komentarz
-20  21   36    M    N/D        TRUE         A+   4.4    Solidny pracownik
-21  22  N/D    K  164.5       FALSE         B+   3.9      Wymaga wsparcia
-22  23   50    M  179.8        TRUE         0-   N/D  Doswiadczony mentor
-23  24   27    K  168.3         N/D        AB-   4.1    Obiecujacy talent
-24  25   42  N/D  175.6        TRUE         A-   4.7        Lider zespolu</code></pre>
-</div>
-</div>
-<p>Plik zawiera różne sposoby kodowania braków danych? Jakie? Jak to ustawić (hint <code>na_values</code>)</p>
-<p>Co z korelacją? Jak wyznaczyć korelację między np. wiekiem, wzrostem i oceną gdy występują braki danych?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>correlation <span class="op">=</span> dane[<span class="st">&quot;wiek&quot;</span>].corr(</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    dane[<span class="st">&quot;ocena&quot;</span>],</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">&quot;pearson&quot;</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>TBA</p>
 </div>
 </div>
 </div>
-</div>
-</section>
-<section id="dane-ankietowe" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="dane-ankietowe"><span class="header-section-number">1.2.2</span> Dane ankietowe</h3>
-<p>W tym miejscu omówiony zostanie zbiór danych z Badania Kapitału Ludzkiego.</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href>R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href>Python</a></li></ul>
-<div class="tab-content">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_spss</span>(<span class="st">&quot;https://www.parp.gov.pl/images/publications/BKL/nowy-uklad/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav&quot;</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(doc<span class="sc">$</span>m9_1,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> dbl+lbl [1:2529] NA, NA, NA, NA, NA, NA,  5, NA, NA, NA, NA, NA, NA,  6,  ...
- @ label        : chr &quot;Przeciętne miesięczne zarobki netto w ost. 12m - przedział&quot;
- @ format.spss  : chr &quot;F2.0&quot;
- @ display_width: int 6
- @ labels       : Named num [1:17] -8 -7 -3 -1 1 2 3 4 5 6 ...
-  ..- attr(*, &quot;names&quot;)= chr [1:17] &quot;trudno powiedzieć&quot; &quot;odmowa odpowiedzi&quot; &quot;brak danych&quot; &quot;NDT&quot; ...</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(doc<span class="sc">$</span>m9_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
- 1  2  3  4  5  6  7  8  9 10 11 12 13 
- 9  6 12 10 25 31 31 37 28 15 14  8 25 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(doc<span class="sc">$</span>m9_1, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-   1    2    3    4    5    6    7    8    9   10   11   12   13 &lt;NA&gt; 
-   9    6   12   10   25   31   31   37   28   15   14    8   25 2278 </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_spss</span>(<span class="st">&quot;https://www.parp.gov.pl/images/publications/BKL/nowy-uklad/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav&quot;</span>, <span class="at">user_na =</span> T)</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(doc<span class="sc">$</span>m9_1,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> dbl+lbl [1:2529] -1, -1, -1, -1, -1, -1,  5, -1, -1, -1, -1, -1, -1,  6,  ...
- @ label        : chr &quot;Przeciętne miesięczne zarobki netto w ost. 12m - przedział&quot;
- @ na_range     : num [1:2] -9 0
- @ format.spss  : chr &quot;F2.0&quot;
- @ display_width: int 6
- @ labels       : Named num [1:17] -8 -7 -3 -1 1 2 3 4 5 6 ...
-  ..- attr(*, &quot;names&quot;)= chr [1:17] &quot;trudno powiedzieć&quot; &quot;odmowa odpowiedzi&quot; &quot;brak danych&quot; &quot;NDT&quot; ...</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(doc<span class="sc">$</span>m9_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  -7   -1    1    2    3    4    5    6    7    8    9   10   11   12   13 
- 329 1949    9    6   12   10   25   31   31   37   28   15   14    8   25 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(doc<span class="sc">$</span>m9_1, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  -7   -1    1    2    3    4    5    6    7    8    9   10   11   12   13 
- 329 1949    9    6   12   10   25   31   31   37   28   15   14    8   25 </code></pre>
-</div>
-</div>
-</div>
-<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyreadstat</span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">&quot;https://www.parp.gov.pl/images/publications/BKL/nowy-uklad/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav&quot;</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url)</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> <span class="st">&quot;../data/downloaded_data.sav&quot;</span></span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(file_name, <span class="st">&#39;wb&#39;</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">file</span>.write(response.content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>7383219</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>df, meta <span class="op">=</span> pyreadstat.read_sav(file_name)</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Print structure of m9_1</span></span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">&#39;m9_1&#39;</span>].dtype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>float64</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">&#39;m9_1&#39;</span>].head(<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0   NaN
-1   NaN
-Name: m9_1, dtype: float64</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">&#39;m9_1&#39;</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>m9_1
-8.0     37
-6.0     31
-7.0     31
-9.0     28
-5.0     25
-13.0    25
-10.0    15
-11.0    14
-3.0     12
-4.0     10
-1.0      9
-12.0     8
-2.0      6
-Name: count, dtype: int64</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">&#39;m9_1&#39;</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>m9_1
-NaN     2278
-8.0       37
-6.0       31
-7.0       31
-9.0       28
-5.0       25
-13.0      25
-10.0      15
-11.0      14
-3.0       12
-4.0       10
-1.0        9
-12.0       8
-2.0        6
-Name: count, dtype: int64</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>df2, meta2 <span class="op">=</span> pyreadstat.read_sav(file_name, user_missing<span class="op">=</span><span class="va">True</span>, usecols <span class="op">=</span> [<span class="st">&quot;m9_1&quot;</span>])</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df2[<span class="st">&#39;m9_1&#39;</span>].dtype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>float64</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df2[<span class="st">&#39;m9_1&#39;</span>].head(<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0   -1.0
-1   -1.0
-Name: m9_1, dtype: float64</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df2[<span class="st">&#39;m9_1&#39;</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>m9_1
--1.0     1949
--7.0      329
- 8.0       37
- 6.0       31
- 7.0       31
- 9.0       28
- 5.0       25
- 13.0      25
- 10.0      15
- 11.0      14
- 3.0       12
- 4.0       10
- 1.0        9
- 12.0       8
- 2.0        6
-Name: count, dtype: int64</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df2[<span class="st">&#39;m9_1&#39;</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>m9_1
--1.0     1949
--7.0      329
- 8.0       37
- 6.0       31
- 7.0       31
- 9.0       28
- 5.0       25
- 13.0      25
- 10.0      15
- 11.0      14
- 3.0       12
- 4.0       10
- 1.0        9
- 12.0       8
- 2.0        6
-Name: count, dtype: int64</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</section>
 </section>
 
 </main>
