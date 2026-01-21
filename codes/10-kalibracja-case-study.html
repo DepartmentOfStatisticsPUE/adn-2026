@@ -3158,7 +3158,7 @@ vertical-align: -.125em;
 6   1  02  12   1   1   1    2    3    1  36   1   3   3  NA    NA   NA</code></pre>
 </div>
 </div>
-<p>W dwóch zmiennych mamy braki danych</p>
+<p>W dwóch zmiennych mamy braki danych ale nie chcemy zastosować imputacji.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gosp[, <span class="fu">c</span>(<span class="st">&quot;dochg&quot;</span>, <span class="st">&quot;wydg&quot;</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3172,20 +3172,28 @@ vertical-align: -.125em;
  NA&#39;s   :6462     NA&#39;s   :6462     </code></pre>
 </div>
 </div>
+<p><strong>Zadanie 1</strong>: w ilu przypadkach brak danych występuje w obydwu kolumnach?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## miejsce na rozwiązanie</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>W związku z tym musimy zastosować kalibrację ale mamy pewne informacje o zmiennych pomocniczych dla wszystkich zmiennych. Na potrzeby tego ćwiczenia pokaże jak skalibrować wagi wg zmiennej klm, woj i interakcji. Zobaczymy tez jak zmieniają się wyniki</p>
 <p>Tworzymy zbiór danych z pełnymi odpowiedziami</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gosp_resp <span class="ot">&lt;-</span> gosp[<span class="fu">complete.cases</span>(gosp),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gosp_resp <span class="ot">&lt;-</span> gosp[<span class="fu">complete.cases</span>(gosp),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Tworzymy informacje o wartościach globalnych zmiennych pomocniczych</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pop_klm <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>klm, gosp)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pop_woj <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>woj, gosp)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>pop_klm_woj <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>klm<span class="sc">+</span>woj, gosp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pop_klm <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>klm, gosp)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pop_woj <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>woj, gosp)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pop_klm_woj <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>klm<span class="sc">+</span>woj, gosp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Zadanie 2</strong>: czy klm i woj różnicuje <code>dochg</code> i <code>wydg</code>? Jak to sprawdzić?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## miejsce na rozwiązanie</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Tworzymy obiekt svydesign</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span>gosp_resp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids=</span><span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span>gosp_resp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in svydesign.default(ids = ~1, data = gosp_resp): No weights or
 probabilities supplied, assuming equal probability</code></pre>
@@ -3193,83 +3201,90 @@ probabilities supplied, assuming equal probability</code></pre>
 </div>
 <p>Jeżeli nie podamy domyślnie tworzone są wagi =1</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">weights</span>(gosp_resp_svy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">weights</span>(gosp_resp_svy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     1 
 26025 </code></pre>
 </div>
 </div>
-<p>Przeprowadzamy kalibrację wg klm</p>
+<p>Przeprowadzamy kalibrację wg klm:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy_klm <span class="ot">&lt;-</span> <span class="fu">calibrate</span>(<span class="at">design =</span> gosp_resp_svy, </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">formula =</span> <span class="fu">list</span>(<span class="sc">~</span>klm),</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">population =</span> <span class="fu">list</span>(pop_klm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy_klm <span class="ot">&lt;-</span> <span class="fu">calibrate</span>(<span class="at">design =</span> gosp_resp_svy, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">formula =</span> <span class="fu">list</span>(<span class="sc">~</span>klm),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">population =</span> <span class="fu">list</span>(pop_klm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Zadanie 3</strong>: prosz sprawdzić rozkład wag korzystając z <code>weights(gosp_resp_svy_klm)</code>. Ile różnych wag powstało? Dlaczego tyle?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## miejsce na rozwiązanie</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Przeprowadzamy kalibrację wg woj</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy_woj <span class="ot">&lt;-</span> <span class="fu">calibrate</span>(<span class="at">design =</span> gosp_resp_svy, </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">formula =</span> <span class="fu">list</span>(<span class="sc">~</span>woj),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">population =</span> <span class="fu">list</span>(pop_woj))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy_woj <span class="ot">&lt;-</span> <span class="fu">calibrate</span>(<span class="at">design =</span> gosp_resp_svy, </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">formula =</span> <span class="fu">list</span>(<span class="sc">~</span>woj),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">population =</span> <span class="fu">list</span>(pop_woj))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Zadanie 4</strong>: prosz sprawdzić rozkład wag korzystając z <code>weights(gosp_resp_svy_woj)</code>. Jak to wygląda w porównaniu do wcześniejszego zadania?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## miejsce na rozwiązanie</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Przeprowadzamy kalibrację wg klm i woj ale bez interakcji</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy_klm_woj_noint <span class="ot">&lt;-</span> <span class="fu">calibrate</span>(<span class="at">design =</span> gosp_resp_svy, </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">formula =</span> <span class="fu">list</span>(<span class="sc">~</span>klm, <span class="sc">~</span>woj),</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">population =</span> <span class="fu">list</span>(pop_klm, pop_woj))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy_klm_woj_noint <span class="ot">&lt;-</span> <span class="fu">calibrate</span>(<span class="at">design =</span> gosp_resp_svy, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">formula =</span> <span class="fu">list</span>(<span class="sc">~</span>klm, <span class="sc">~</span>woj),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">population =</span> <span class="fu">list</span>(pop_klm, pop_woj))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Zadanie 5</strong>: czy ta kalibracja odtworzy wagi w przekrojach klm x woj?</p>
 <p>Przeprowadzamy kalibrację wg klm i woj z interakcją</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy_klm_woj_int <span class="ot">&lt;-</span> <span class="fu">calibrate</span>(<span class="at">design =</span> gosp_resp_svy, </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">formula =</span> <span class="fu">list</span>(<span class="sc">~</span>klm<span class="sc">+</span>woj),</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">population =</span> <span class="fu">list</span>(pop_klm_woj),</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">calfun =</span> <span class="st">&quot;raking&quot;</span>) <span class="do">## przy liniowej jest błąd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## przy liniowej jest problem numeryczny bo są zera w pop_klm_woj</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>gosp_resp_svy_klm_woj_int <span class="ot">&lt;-</span> <span class="fu">calibrate</span>(<span class="at">design =</span> gosp_resp_svy, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">formula =</span> <span class="fu">list</span>(<span class="sc">~</span>klm<span class="sc">+</span>woj),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">population =</span> <span class="fu">list</span>(pop_klm_woj),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">calfun =</span> <span class="st">&quot;raking&quot;</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Porównanmy oszacowania</p>
+<p>Porównanmy oszacowania [wartości prawdziwe: <code>dochg=2127</code>, <code>wydg=2012.7</code>]</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg<span class="sc">+</span>los, gosp_resp_svy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg, gosp_resp_svy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           mean     SE
-dochg 2031.6063 9.2971
-wydg  1930.9257 8.8343
-los      3.1788 0.0100</code></pre>
+<pre><code>        mean     SE
+dochg 2031.6 9.2971
+wydg  1930.9 8.8343</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg<span class="sc">+</span>los, gosp_resp_svy_klm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>           mean      SE
-dochg 2153.2401 17.0653
-wydg  2041.1689 14.9992
-los      3.0675  0.0118</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg<span class="sc">+</span>los, gosp_resp_svy_woj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg, gosp_resp_svy_klm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           mean     SE
-dochg 2037.3109 9.6123
-wydg  1932.4891 8.9357
-los      3.1754 0.0100</code></pre>
+<pre><code>        mean     SE
+dochg 2153.2 17.065
+wydg  2041.2 14.999</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg<span class="sc">+</span>los, gosp_resp_svy_klm_woj_noint)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg, gosp_resp_svy_woj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           mean      SE
-dochg 2149.9614 16.9378
-wydg  2037.3378 14.9281
-los      3.0636  0.0118</code></pre>
+<pre><code>        mean     SE
+dochg 2037.3 9.6123
+wydg  1932.5 8.9357</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg<span class="sc">+</span>los, gosp_resp_svy_klm_woj_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg, gosp_resp_svy_klm_woj_noint)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           mean      SE
-dochg 2140.9652 16.7258
-wydg  2027.6950 14.7161
-los      3.0644  0.0124</code></pre>
+<pre><code>        mean     SE
+dochg 2150.0 16.938
+wydg  2037.3 14.928</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>dochg<span class="sc">+</span>wydg, gosp_resp_svy_klm_woj_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        mean     SE
+dochg 2141.0 16.726
+wydg  2027.7 14.716</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>gosp <span class="op">=</span> pd.read_excel(<span class="st">&quot;../data/gospodarstwa-zajecia.xlsx&quot;</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>gosp[<span class="st">&#39;klm&#39;</span>] <span class="op">=</span> gosp[<span class="st">&#39;klm&#39;</span>].astype(<span class="st">&#39;category&#39;</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>gosp[<span class="st">&#39;woj&#39;</span>] <span class="op">=</span> gosp[<span class="st">&#39;woj&#39;</span>].astype(<span class="st">&#39;category&#39;</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gosp.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>gosp <span class="op">=</span> pd.read_excel(<span class="st">&quot;../data/gospodarstwa-zajecia.xlsx&quot;</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>gosp[<span class="st">&#39;klm&#39;</span>] <span class="op">=</span> gosp[<span class="st">&#39;klm&#39;</span>].astype(<span class="st">&#39;category&#39;</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>gosp[<span class="st">&#39;woj&#39;</span>] <span class="op">=</span> gosp[<span class="st">&#39;woj&#39;</span>].astype(<span class="st">&#39;category&#39;</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gosp.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  klm woj  trb  zut  d21  d32  d345  ...  d36  d38  d61  d63  los  dochg  wydg
 0   1   2   11    5    2    1     1  ...   69    2    3    3  NaN    NaN   NaN
@@ -3282,7 +3297,7 @@ los      3.0644  0.0124</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gosp[[<span class="st">&#39;dochg&#39;</span>, <span class="st">&#39;wydg&#39;</span>]].describe())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gosp[[<span class="st">&#39;dochg&#39;</span>, <span class="st">&#39;wydg&#39;</span>]].describe())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              dochg          wydg
 count  26025.000000  26025.000000
@@ -3294,12 +3309,12 @@ min   -21249.110000     73.900000
 75%     2536.300000   2359.560000
 max    50151.970000  31927.620000</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Missing values:&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Missing values:&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Missing values:</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gosp[[<span class="st">&#39;dochg&#39;</span>, <span class="st">&#39;wydg&#39;</span>]].isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gosp[[<span class="st">&#39;dochg&#39;</span>, <span class="st">&#39;wydg&#39;</span>]].isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dochg    6462
 wydg     6462
@@ -3307,23 +3322,23 @@ dtype: int64</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>gosp_resp <span class="op">=</span> gosp.dropna(subset<span class="op">=</span>[<span class="st">&#39;dochg&#39;</span>, <span class="st">&#39;wydg&#39;</span>]).copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>gosp_resp <span class="op">=</span> gosp.dropna(subset<span class="op">=</span>[<span class="st">&#39;dochg&#39;</span>, <span class="st">&#39;wydg&#39;</span>]).copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pop_klm <span class="op">=</span> gosp[<span class="st">&#39;klm&#39;</span>].value_counts().to_dict()</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>pop_woj <span class="op">=</span> gosp[<span class="st">&#39;woj&#39;</span>].value_counts().to_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>pop_klm <span class="op">=</span> gosp[<span class="st">&#39;klm&#39;</span>].value_counts().to_dict()</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>pop_woj <span class="op">=</span> gosp[<span class="st">&#39;woj&#39;</span>].value_counts().to_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>pop_klm_woj <span class="op">=</span> gosp.groupby([<span class="st">&#39;klm&#39;</span>, <span class="st">&#39;woj&#39;</span>]).size().to_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pop_klm_woj <span class="op">=</span> gosp.groupby([<span class="st">&#39;klm&#39;</span>, <span class="st">&#39;woj&#39;</span>]).size().to_dict()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;string&gt;:1: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>gosp_resp[<span class="st">&#39;weight&#39;</span>] <span class="op">=</span> <span class="fl">1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>gosp_resp[<span class="st">&#39;weight&#39;</span>] <span class="op">=</span> <span class="fl">1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;</span><span class="ch">\n</span><span class="ss">Początkowe wagi: </span><span class="sc">{</span>gosp_resp[<span class="st">&#39;weight&#39;</span>]<span class="sc">.</span>unique()<span class="sc">}</span><span class="ss">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;</span><span class="ch">\n</span><span class="ss">Początkowe wagi: </span><span class="sc">{</span>gosp_resp[<span class="st">&#39;weight&#39;</span>]<span class="sc">.</span>unique()<span class="sc">}</span><span class="ss">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Początkowe wagi: [1.]</code></pre>

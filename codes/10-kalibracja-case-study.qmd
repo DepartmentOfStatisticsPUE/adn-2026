@@ -48,11 +48,19 @@ gosp <- transform(gosp,
 head(gosp)
 ```
 
-W dwóch zmiennych mamy braki danych
+W dwóch zmiennych mamy braki danych ale nie chcemy zastosować imputacji.
 
 ```{r}
 summary(gosp[, c("dochg", "wydg")])
 ```
+
+**Zadanie 1**: w ilu przypadkach brak danych występuje w obydwu kolumnach?
+
+```{r}
+## miejsce na rozwiązanie
+```
+
+
 
 W związku z tym musimy zastosować kalibrację ale mamy pewne informacje o zmiennych pomocniczych dla wszystkich zmiennych. Na potrzeby tego ćwiczenia pokaże jak skalibrować wagi wg zmiennej klm, woj i interakcji. Zobaczymy tez jak zmieniają się wyniki
 
@@ -70,6 +78,13 @@ pop_woj <- xtabs(~woj, gosp)
 pop_klm_woj <- xtabs(~klm+woj, gosp)
 ```
 
+**Zadanie 2**: czy klm i woj różnicuje `dochg` i `wydg`? Jak to sprawdzić?
+
+```{r}
+## miejsce na rozwiązanie
+```
+
+
 Tworzymy obiekt svydesign
 
 ```{r}
@@ -82,7 +97,7 @@ Jeżeli nie podamy domyślnie tworzone są wagi =1
 table(weights(gosp_resp_svy))
 ```
 
-Przeprowadzamy kalibrację wg klm
+Przeprowadzamy kalibrację wg klm:
 
 ```{r}
 gosp_resp_svy_klm <- calibrate(design = gosp_resp_svy, 
@@ -90,12 +105,25 @@ gosp_resp_svy_klm <- calibrate(design = gosp_resp_svy,
                                population = list(pop_klm))
 ```
 
+**Zadanie 3**: prosz sprawdzić rozkład wag korzystając z `weights(gosp_resp_svy_klm)`. Ile różnych wag powstało? Dlaczego tyle?
+
+```{r}
+## miejsce na rozwiązanie
+```
+
+
 Przeprowadzamy kalibrację wg woj
 
 ```{r}
 gosp_resp_svy_woj <- calibrate(design = gosp_resp_svy, 
                                formula = list(~woj),
                                population = list(pop_woj))
+```
+
+**Zadanie 4**: prosz sprawdzić rozkład wag korzystając z `weights(gosp_resp_svy_woj)`. Jak to wygląda w porównaniu do wcześniejszego zadania?
+
+```{r}
+## miejsce na rozwiązanie
 ```
 
 Przeprowadzamy kalibrację wg klm i woj ale bez interakcji
@@ -106,24 +134,31 @@ gosp_resp_svy_klm_woj_noint <- calibrate(design = gosp_resp_svy,
                                          population = list(pop_klm, pop_woj))
 ```
 
+**Zadanie 5**: czy ta kalibracja odtworzy wagi w przekrojach klm x woj?
 
-Przeprowadzamy kalibrację wg klm i woj z interakcją
+
+
+Przeprowadzamy kalibrację wg klm i woj z interakcją 
 
 ```{r}
+## przy liniowej jest problem numeryczny bo są zera w pop_klm_woj
 gosp_resp_svy_klm_woj_int <- calibrate(design = gosp_resp_svy, 
                                        formula = list(~klm+woj),
                                        population = list(pop_klm_woj),
-                                       calfun = "raking") ## przy liniowej jest błąd
+                                       calfun = "raking") 
 ```
 
-Porównanmy oszacowania
+Porównanmy oszacowania [wartości prawdziwe: `dochg=2127`, `wydg=2012.7`]
 
 ```{r}
-svymean(~dochg+wydg+los, gosp_resp_svy)
-svymean(~dochg+wydg+los, gosp_resp_svy_klm)
-svymean(~dochg+wydg+los, gosp_resp_svy_woj)
-svymean(~dochg+wydg+los, gosp_resp_svy_klm_woj_noint)
-svymean(~dochg+wydg+los, gosp_resp_svy_klm_woj_int)
+svymean(~dochg+wydg, gosp_resp_svy)
+```
+
+```{r}
+svymean(~dochg+wydg, gosp_resp_svy_klm)
+svymean(~dochg+wydg, gosp_resp_svy_woj)
+svymean(~dochg+wydg, gosp_resp_svy_klm_woj_noint)
+svymean(~dochg+wydg, gosp_resp_svy_klm_woj_int)
 ```
 
 
