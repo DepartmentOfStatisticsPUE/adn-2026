@@ -102,3 +102,8 @@
 + Python: TBA
 + [Notatnik](https://htmlpreview.github.io/?https://raw.githubusercontent.com/DepartmentOfStatisticsPUE/adn-2025/refs/heads/main/codes/10-estymacja-wariancji.html)
 + Dane na zajęcia [gospodarstwa-zajecia.xlsx](data/gospodarstwa-zajecia.xlsx)
+
+### 9. Case study
+
++ [dane z Badania Kapitału Ludzkiego](https://www.parp.gov.pl/images/publications/BKL/nowy-uklad/Baza_danych_z_badania_ludnoci_BKL_edycja_2021_SAV-SPSS.sav)
++ zadania do wykonania: slajdy do zajęć na Overleaf.
